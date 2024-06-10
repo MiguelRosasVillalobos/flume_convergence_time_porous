@@ -2,7 +2,7 @@
 #Miguel Rosas
 
 # Lista de valores para lc
-valores_t=("15" "20" "30" "50" "60" "120")
+valores_t=("120")
 
 # Verifica si se proporciona la cantidad como argumento
 if [ $# -eq 0 ]; then
