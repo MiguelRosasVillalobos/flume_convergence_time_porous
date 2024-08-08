@@ -69,5 +69,9 @@ for ((i = 1; i <= $cantidad; i++)); do
   kitty --hold -e bash -c "./extract_freesurface.sh &&  rm -r ./proce*; exec bash" &
   cd ..
 done
+cp ./Case*/*csv ./Kr_calculation/
+cd ./Kr_calculation
+python3 extractor.py
+python3 separador.py
 
 echo "Proceso completado."
