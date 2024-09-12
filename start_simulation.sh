@@ -47,25 +47,11 @@ for ((i = 1; i <= $cantidad; i++)); do
   #Generar mallado gmsh
   cd "$nombre_carpeta/"
   mkdir freesurface
-  gmsh "$archivo_geoi" -3
 
-  #Genera mallado OpenFoam
-  gmshToFoam "flume_Case_$i.msh"
-
-  #Lineas a eliminar en polymesh/bondary
-  lineas_eliminar=("24" "30" "36" "42" "48" "54")
-
-  #Itera sobre las líneas a eliminar y utiliza sed para quitarlas
-  for numero_linea in "${lineas_eliminar[@]}"; do
-    sed -i "${numero_linea}d" "constant/polyMesh/boundary"
-  done
-
-  # Reemplaza "patch" por "wall"
-  sed -i '29s/patch/wall/; 35s/patch/wall/ ' "constant/polyMesh/boundary"
-  sed -i '23s/patch/empty/ ' "constant/polyMesh/boundary"
+  blockMesh
   setFields
   decomposePar
-  mpirun -np 8 interIsoFoam -parallel >log
+  mpirun -np 6 interIsoFoam -parallel >log
   kitty --hold -e bash -c "./extract_freesurface.sh &&  rm -r ./proce*; exec bash" &
   cd ..
 done
